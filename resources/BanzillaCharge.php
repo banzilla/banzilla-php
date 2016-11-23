@@ -46,7 +46,37 @@ class BanzillaCharge extends BanzillaAPIResourceBase
 class BanzillaChargeList extends BanzillaApiDerivedResource
 {
 
-    public function create($params) {
+    public function createCard($params) {
+    
+        $this->validateParams($params, 'card');
+
+        $cardNum = $params['Card']['CardNumber'];
+        $type = $this->validateCards($cardNum);
+
+        $params['Method'] = 'card';
+        $params['Gateway'] = $type['gateway'];
+        $params['Description'] = 'Cargo con tarjeta';
+
+        if(!empty($type)){
+            return $this->add($params);
+        }
+
+    }
+    public function createOxxo($params) {
+
+        $params['Method'] = 'store';
+        $params['Gateway'] = 'oxxo';
+        $params['Description'] = 'Pago OXXO';
+
+        return $this->add($params);
+    }
+
+    public function createSpei($params) {
+
+        $params['Method'] = 'transfer';
+        $params['Gateway'] = 'spei';
+        $params['Description'] = 'SPEI 125800';
+
         return $this->add($params);
     }
 

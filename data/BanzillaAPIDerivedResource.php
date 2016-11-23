@@ -55,6 +55,21 @@ class BanzillaAPIDerivedResource extends BanzillaAPIResourceBase {
 	/*  ======================   BANZILLA DERIVED RESOURCE   =====================  */
 	/*  ======================        PUBLIC FUNCTIONS       =====================  */
 	
+	public function validateCards($numCard) {
+		BanzillaConsole::trace('BanzillaAPIDerivedResource @validateCards');
+		
+		$validate = parent::_validateCards($numCard);
+		
+		return $validate;
+	}
+
+	public function validateParams($params, $method) {
+		BanzillaConsole::trace('BanzillaAPIDerivedResource @validateParams');
+		
+		$validate = parent::_validateParams($params, $method);
+		
+		return $validate;
+	}
 	
 	public function add($params) {
 		BanzillaConsole::trace('BanzillaAPIDerivedResource @add');

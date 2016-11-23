@@ -233,10 +233,135 @@ abstract class BanzillaAPIResourceBase
         return strtolower(urlencode($class)).($pluralize ? '' : '');
     }
 
-    protected function validateParams($params) {
-        //BanzillaConsole::trace('BanzillaAPIResourceBase @validateParams');
+    protected function _validateParams($params, $method) {
+        BanzillaConsole::trace('BanzillaAPIResourceBase @validateParams');
+
         if (!is_array($params)) {
             throw new BanzillaAPIRequestError("Invalid parameters type detected (type '".gettype($params)."' received, Array expected)");
+        }else{
+
+            //Order validate info
+
+            if(!isset($params['Order']) || $params['Order'] == ''){
+                throw new BanzillaAPIRequestError("The order info are empty or null");
+            }else{
+                if(!isset($params['Order']['Reference']) || $params['Order']['Reference'] ==''){
+                    throw new BanzillaAPIRequestError("The order reference field are empty or null");
+                }
+                if(!isset($params['Order']['Amount']) || $params['Order']['Amount'] ==''){
+                    throw new BanzillaAPIRequestError("The order amount field are empty or null");
+                }
+                if(!isset($params['Order']['Currency']) || $params['Order']['Currency'] ==''){
+                    throw new BanzillaAPIRequestError("The order currency field are empty or null");
+                }
+            }
+
+            //customer validate info
+
+            if(!isset($params['Customer']) || $params['Customer'] == ''){
+                throw new BanzillaAPIRequestError("The Customer info are empty or null");
+            }else{
+                if(!isset($params['Customer']['FirstName']) || $params['Customer']['FirstName'] ==''){
+                    throw new BanzillaAPIRequestError("The Customer FirstName field are empty or null");
+                }
+                if(!isset($params['Customer']['MiddleName']) || $params['Customer']['MiddleName'] ==''){
+                    throw new BanzillaAPIRequestError("The Customer MiddleName field are empty or null");
+                }
+                if(!isset($params['Customer']['LastName']) || $params['Customer']['LastName'] ==''){
+                    throw new BanzillaAPIRequestError("The Customer LastName field are empty or null");
+                }
+                if(!isset($params['Customer']['Email']) || $params['Customer']['Email'] ==''){
+                    throw new BanzillaAPIRequestError("The Customer Email field are empty or null");
+                }
+                if(!isset($params['Customer']['Address']) || $params['Customer']['Address'] ==''){
+                    throw new BanzillaAPIRequestError("The Customer Address info are empty or null");
+                }else{
+                    if(!isset($params['Customer']['Address']['Street']) || $params['Customer']['Address']['Street'] ==''){
+                        throw new BanzillaAPIRequestError("The Customer Adress Street field are empty or null");
+                    }
+                    if(!isset($params['Customer']['Address']['Number']) || $params['Customer']['Address']['Number'] ==''){
+                        throw new BanzillaAPIRequestError("The Customer Adress Number field are empty or null");
+                    }
+                    if(!isset($params['Customer']['Address']['City']) || $params['Customer']['Address']['City'] ==''){
+                        throw new BanzillaAPIRequestError("The Customer Adress City field are empty or null");
+                    }
+                    if(!isset($params['Customer']['Address']['State']) || $params['Customer']['Address']['State'] ==''){
+                        throw new BanzillaAPIRequestError("The Customer Adress State field are empty or null");
+                    }else{
+                        self::validateIsoCity($params['Customer']['Address']['State']);
+                    }
+                    if(!isset($params['Customer']['Address']['Country']) || $params['Customer']['Address']['Country'] ==''){
+                        throw new BanzillaAPIRequestError("The Customer Adress Country field are empty or null");
+                    }else{
+                        self::validateIsoCountry($params['Customer']['Address']['Country']);
+                    }
+                    if(!isset($params['Customer']['Address']['ZipCode']) || $params['Customer']['Address']['ZipCode'] ==''){
+                        throw new BanzillaAPIRequestError("The Customer Adress ZipCode field are empty or null");
+                    }
+                }
+            }
+
+            switch ($method) {
+                case 'card':
+                    if(!isset($params['Card']) || $params['Card'] == ''){
+                        throw new BanzillaAPIRequestError("The Card info are empty or null");
+                    }else{
+                        if(!isset($params['Card']['HolderName']) || $params['Card']['HolderName'] ==''){
+                            throw new BanzillaAPIRequestError("The Card HolderName field are empty or null");
+                        }
+                        if(!isset($params['Card']['CardNumber']) || $params['Card']['CardNumber'] ==''){
+                            throw new BanzillaAPIRequestError("The Card CardNumber field are empty or null");
+                        }
+                        if(!isset($params['Card']['SecurityCode']) || $params['Card']['SecurityCode'] ==''){
+                            throw new BanzillaAPIRequestError("The Card SecurityCode field are empty or null");
+                        }
+                        if(!isset($params['Card']['Address']) || $params['Card']['Address'] ==''){
+                            throw new BanzillaAPIRequestError("The Card Address info are empty or null");
+                        }else{
+                            if(!isset($params['Card']['Address']['Street']) || $params['Card']['Address']['Street'] ==''){
+                                throw new BanzillaAPIRequestError("The Card Adress Street field are empty or null");
+                            }
+                            if(!isset($params['Card']['Address']['Number']) || $params['Card']['Address']['Number'] ==''){
+                                throw new BanzillaAPIRequestError("The Card Adress Number field are empty or null");
+                            }
+                            if(!isset($params['Card']['Address']['City']) || $params['Card']['Address']['City'] ==''){
+                                throw new BanzillaAPIRequestError("The Card Adress City field are empty or null");
+                            }
+                            if(!isset($params['Card']['Address']['State']) || $params['Card']['Address']['State'] ==''){
+                                throw new BanzillaAPIRequestError("The Card Adress State field are empty or null");
+                            }else{
+                                self::validateIsoCity($params['Card']['Address']['State']);
+                            }
+                            if(!isset($params['Card']['Address']['Country']) || $params['Card']['Address']['Country'] ==''){
+                                throw new BanzillaAPIRequestError("The Card Adress Country field are empty or null");
+                            }else{
+                                self::validateIsoCountry($params['Card']['Address']['Country']);
+                            }
+                            if(!isset($params['Card']['Address']['ZipCode']) || $params['Card']['Address']['ZipCode'] ==''){
+                                throw new BanzillaAPIRequestError("The Card Adress ZipCode field are empty or null");
+                            }
+                        }
+                    }
+
+                    break;
+                
+                case 'store':
+                    if(!isset($params['DueDate']) || $params['DueDate'] == ''){
+                        throw new BanzillaAPIRequestError("The DueDate field are empty or null");
+                    }
+                    break;
+
+                case 'transfer':
+                    if(!isset($params['DueDate']) || $params['DueDate'] == ''){
+                        throw new BanzillaAPIRequestError("The DueDate field are empty or null");
+                    }
+                    break;
+
+                default:
+                    
+                    break;
+            }
+
         }
     }
 
@@ -247,11 +372,104 @@ abstract class BanzillaAPIResourceBase
         }
     }
 
+    protected function _validateCards($numCard) {
+        if(is_numeric($numCard)){
+            $validNumber = self::isValidNumber($numCard);
+            
+            if($validNumber == true){
+                $type = self::cardType($numCard);
+                return $type;
+            }
+            throw new BanzillaAPIRequestError("Invalid card");
+
+        }else{
+            throw new BanzillaAPIRequestError('The field number of card must be a numerical value');
+        }
+    }
+
+    protected function cardType($numCard){
+        $num = (string)$numCard;
+        
+        if (substr($num, 0, 1)=='4'){
+            $type['brand'] = 'visa';
+            $type['gateway'] = 'prosa';
+        }else if (substr($num, 0, 2)=='51' || substr($num, 0, 2)=='52' || substr($num, 0, 2)=='53' || substr($num, 0, 2)=='54' || substr($num, 0, 2)=='55'){
+            $type['brand'] = 'mastercard';
+            $type['gateway'] = 'prosa';
+        }else if (substr($num, 0, 2)=='34' || substr($num, 0, 2)=='37'){
+            $type['brand'] = 'amex';
+            $type['gateway'] = 'amex';
+        }else if (substr($num, 0, 3)=='300' || substr($num, 0, 3)=='301' || substr($num, 0, 3)=='302' || substr($num, 0, 3)=='303' || substr($num, 0, 3)=='304' || substr($num, 0, 3)=='305' || substr($num, 0, 2)=='36' || substr($num, 0, 2)=='38'){
+            $type['brand'] = 'diners';
+            $type['gateway'] = 'prosa';
+        }else if (substr($num, 0, 1)=='1'){
+            $type['brand'] = 'unknown';
+            $type['gateway'] = 'prosa';
+        }else{
+            throw new BanzillaAPIRequestError('Invalid type card');
+        }
+        return $type;
+    }
+
+    protected function isValidNumber($number){
+
+        $number_length=strlen($number);
+        $parity=$number_length % 2;
+
+        $total=0;
+        for ($i=0; $i<$number_length; $i++) {
+        $digit=$number[$i];
+        
+        if ($i % 2 == $parity) {
+            $digit*=2;
+            
+            if ($digit > 9) {
+                $digit-=9;
+            }
+        }
+        
+        $total+=$digit;
+      }
+
+      return ($total % 10 == 0) ? true : false;
+
+    }
+
+    protected function validateIsoCity($codeCity) {
+
+        $code_length = strlen($codeCity);
+
+        if($code_length == 2 ){
+            
+            if(!preg_match("/^([A-Z]+){0,20}$/", $codeCity)){
+                throw new BanzillaAPIRequestError("The State code format is in a not valid characters");
+            }
+            
+        }else{
+            throw new BanzillaAPIRequestError("The State code must be two characters");
+        }
+        
+    }
+
+    protected function validateIsoCountry($codeCountry) {
+
+        $code_length = strlen($codeCountry);
+
+        if($code_length == 3 ){
+
+            if(!preg_match("/^([A-Z]+){0,20}$/", $codeCountry)){
+                throw new BanzillaAPIRequestError("The Country code format is in a not valid characters");
+            }
+
+        }else{
+            throw new BanzillaAPIRequestError("The Country code must be two characters");
+        }
+        
+    }
+
     protected function _create($resourceName, $params, $props = null) {
 
         $resource = self::getInstance($resourceName, $props);
-        $resource->validateParams($params);
-
         
         $response = BanzillaAPISocket::request('post', $resource->getUrl(), $params);
         return $resource->refreshData($response);
