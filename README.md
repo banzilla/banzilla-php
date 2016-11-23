@@ -12,13 +12,12 @@ $banzilla = Banzilla::getInstance('ID-COMERCIO', 'API-KEY');
 El siguiente paso es injectar os parametros al metodo de cargo con tarjeta:
 
 ```php
-$chargeCard = $banzilla->charges->create($chargeData);
+$chargeCard = $banzilla->charges->createCard($chargeData);
 ```
 
 Para ello previamente el sistema deve tener los datos en una arreglo que en el ejemplo anterior nombramos $chargeData dichos datos algunos vienen de formulario otros de base de datos
 ```php
 $chargeData = array(
-                 "Method" => "card",
                  "Card"=> array (
                         "HolderName"   =>  "Nombre Completo",
                         "CardNumber"   => "4426175029604087",
@@ -75,13 +74,12 @@ $responseCard = array(
 
 Para un cargo directo en tiendas OXXO, de igual modo tomamos la instancia de la clase Banzilla e inyectamos los parametros correspondientes al metodo de cargo en tiendas:
 ```php
-$ChargeOxxo = $banzilla->charges->create($oxxoData);
+$ChargeOxxo = $banzilla->charges->createOxxo($oxxoData);
 ```
 estos parametros tambien provienen de la base algunos y otros del formulario de pago
 
 ```php
 $oxxoData = array(
-                "Method" => "store",
                 "DueDate" => "11/04/2016",
                 "Order"=> array(
                         "Reference" => "247",
@@ -126,13 +124,12 @@ $responseOxxo = array(
 Para solicitud de cargo SPEI el metodo tambien ocuamos misma instancia de la clase Banzilla y pasamos parametros al metodo, de la sigiente manera:
 
 ```php
-$chargeSpei = $banzilla->charges->create($speiData);
+$chargeSpei = $banzilla->charges->createSpei($speiData);
 ```
 Al igual que los anteriores casos la informacion enviada al metodo puede venir de la base de datos y de el formulario de pago
 
 ```php
 $speiData = array(
-                "Method" => "transfer",
                 "DueDate" => "11/07/2016",
                 "Order"=> array(
                         "Reference" => "10285100-3322",
