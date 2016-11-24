@@ -79,7 +79,14 @@ class BanzillaChargeList extends BanzillaApiDerivedResource
 
         return $this->add($params);
     }
+    
+    public function createToken($params) {
 
+        $params['Method'] = 'token';
+        $params['Description'] = 'Cargo con token';
+
+        return $this->add($params);
+    }
 }
 
 ?>
