@@ -6,7 +6,7 @@ Integracion a la API de Banzilla version 1.0 a traves del lenguaje PHP, para ell
 Para hacer un cargo directo con tarjeta, primero hay que instanciar la clase banzilla:
 
 ```php
-$banzilla = Banzilla::getInstance('ID-COMERCIO', 'API-KEY');
+$banzilla = Banzilla::getInstance('API-KEY', 'SECRET-KEY');
 ```
 
 El siguiente paso es injectar os parametros al metodo de cargo con tarjeta:
