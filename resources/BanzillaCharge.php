@@ -64,6 +64,8 @@ class BanzillaChargeList extends BanzillaApiDerivedResource
     }
     public function createOxxo($params) {
 
+        $this->validateParams($params, 'oxxo');
+
         $params['Method'] = 'store';
         $params['Gateway'] = 'oxxo';
         $params['Description'] = 'Pago OXXO';
@@ -73,13 +75,15 @@ class BanzillaChargeList extends BanzillaApiDerivedResource
 
     public function createSpei($params) {
 
+        $this->validateParams($params, 'spei');
+
         $params['Method'] = 'transfer';
         $params['Gateway'] = 'spei';
         $params['Description'] = 'SPEI 125800';
 
         return $this->add($params);
     }
-    
+
     public function createToken($params) {
 
         $params['Method'] = 'token';
@@ -87,6 +91,7 @@ class BanzillaChargeList extends BanzillaApiDerivedResource
 
         return $this->add($params);
     }
+
 }
 
 ?>
